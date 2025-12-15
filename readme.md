@@ -7,7 +7,7 @@
   <h3 align="center">Nexus Token Joiner <a href="https://discord.gg/hM5VE7XDKr"></a></h3>
 
   <p align="center">
-    Powerfull Token Joiner - Now for free
+    Powerful Token Joiner - Now for free
     <br/>
     <br/>
     <a href="https://discord.gg/hM5VE7XDKr">Discord Server</a>
@@ -22,15 +22,17 @@
 
 
 ## Features 
-- **`Token Joining`** - Requestbased Token Joining
+- **`Token Joining`** - Request-based Token Joining
 - **`Token Leaving`** - Token Leaver
-- **`Nicckname Chhanger`** - Nickname Changer
-- **`Captcha Solving`** - Service based Captcha Solving
-  
+- **`Nickname Changer`** - Nickname Changer
+- **`Captcha Solving`** - Service-based Captcha Solving
+
+## GUI Version (35 Stars ⭐)
+![picture](/tokenk-joiner-screenshot1.png)
+
 ## Tech Stack
 - Python
 
-## Contributers
+## Contributors
 
 - **`VatosV2`** - Developer / Creator
-
