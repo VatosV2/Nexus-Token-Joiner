@@ -534,6 +534,24 @@ class Hsolver:
                 time.sleep(1)
             
             return False, "Captcha Timeout"
+
+        if config["captcha"]["service"] == "teamai":
+            json_data = {
+            "site_key": site_key,
+            "site_url": website_url,
+            "rqd": rqdata,
+            "proxy": proxy,
+            "key": api_key,
+            }
+
+            r = requests.post("http://captcha.aiclientz.com:1234/solve", json=json_data)
+            try:
+                data = r.json()
+            except ValueError:
+                return False, r.text
+
+            if r.status_code == 201 or str(data.get("code")) == "201" or "captcha" in data:
+                return True, data.get("captcha")
         
 
 
@@ -793,4 +811,5 @@ class Utils:
         if os.name == "nt":
             os.system(f"mode con: cols={width} lines={height}")
         else:
+
             os.system(f"resize -s {height} {width}")
