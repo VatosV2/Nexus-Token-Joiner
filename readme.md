@@ -4,13 +4,13 @@
   </a>
 </p>
 
-  <h3 align="center">Nexus Token Joiner <a href="https://discord.gg/MNy9ftqkwn"></a></h3>
+  <h3 align="center">Nexus Token Joiner <a href="https://t.me/cfvatos"></a></h3>
 
   <p align="center">
     Powerful Token Joiner - Now for free
     <br/>
     <br/>
-    <a href="https://discord.gg/MNy9ftqkwn">Discord Server</a>
+    <a href="https://t.me/cfvatos">Telegram Channel</a>
     <a>‎ ‎ Star to support ⭐</a>
   </p>
 </p>
