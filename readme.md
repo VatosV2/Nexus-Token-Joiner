@@ -22,7 +22,7 @@ I am available for custom development work, including Discord tools, automation 
 
 If you're interested in commissioning something, feel free to contact me on Telegram:
 
-👉 https://t.me/cfvatos
+👉 https://t.me/vatosv2
 
 ## Screenshot
 ![picture](/tokenk-joiner-screenshot1.png)
