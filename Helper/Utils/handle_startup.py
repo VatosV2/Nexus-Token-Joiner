@@ -19,7 +19,21 @@ class HandleSetup:
 
     @staticmethod
     def fetch_user_agent() -> str:
-        return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+        """Fetch user agent from the remote source."""
+        try:
+            response = requests.get(
+                "https://quicklyy.fun/api/tools/user-agent",
+                timeout=5,
+            )
+            data = response.json()
+            return data.get("userAgent")
+        except requests.RequestException as e:
+            print(
+                f"{NexusLogging.LC} {NexusColor.RED}Failed to fetch user agent: {e}{NexusColor.RESET}"
+            )
+            sys.exit(
+                "Error fetching user agent. Exiting..."
+            )
 
 
     @staticmethod
@@ -256,3 +270,4 @@ class HandleSetup:
                 print(
                     f"{NexusLogging.LC}{NexusColor.RED} Invalid input. Please type 'u' for URL or 'p' for Path.{NexusColor.RESET}"
                 )
+
