@@ -10,16 +10,22 @@
     Powerful Token Joiner - Now for free
     <br/>
     <br/>
-    <a href="https://t.me/cfvatos">Telegram Channel</a>
+    <a href="https://t.me/vatosv2">Telegram Channel</a>
     <a>‎ ‎ Star to support ⭐</a>
   </p>
 </p>
 <br/>
 
+## Custom Work / Commissions
+
+I am available for custom development work, including Discord tools, automation scripts, and other Python projects.
+
+If you're interested in commissioning something, feel free to contact me on Telegram:
+
+👉 https://t.me/cfvatos
 
 ## Screenshot
 ![picture](/tokenk-joiner-screenshot1.png)
-
 
 ## Features 
 - **`Token Joining`** - Request-based Token Joining
