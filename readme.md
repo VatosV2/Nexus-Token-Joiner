@@ -10,7 +10,7 @@
     Powerful Token Joiner - Now for free
     <br/>
     <br/>
-    <a href="https://t.me/vatosv2">Telegram Channel</a>
+    <a href="https://t.me/cfvatos">Telegram Channel</a>
     <a>‎ ‎ Star to support ⭐</a>
   </p>
 </p>
