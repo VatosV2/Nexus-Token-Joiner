@@ -179,7 +179,6 @@ class LeaverController:
                         gid = g["id"]
                         gname = g.get("name", "Unknown")
 
-                        # Retry up to 3 times
                         for attempt in range(3):
                             ok, leave_msg = client.leave_server(token, gid, timeout=timeout)
                             if ok:

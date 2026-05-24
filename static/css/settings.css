@@ -137,3 +137,45 @@ input:checked + .toggle-slider {
 .tab-content .setting-control {
   min-width: 50px;
 }
+
+.captcha-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 14px;
+  border-radius: 10px;
+
+  background: rgba(255, 107, 157, 0.12);
+  border: 1px solid rgba(255, 107, 157, 0.25);
+
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    background-color var(--transition-speed),
+    border-color var(--transition-speed),
+    transform var(--transition-speed),
+    box-shadow var(--transition-speed);
+}
+
+.captcha-link:hover {
+  background: rgba(255, 107, 157, 0.18);
+  border-color: rgba(255, 107, 157, 0.45);
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 0 12px rgba(255, 107, 157, 0.2);
+}
+
+.captcha-link:active {
+  transform: scale(0.98);
+}
+
+.captcha-link::after {
+  content: "↗";
+  font-size: 12px;
+  opacity: 0.8;
+}

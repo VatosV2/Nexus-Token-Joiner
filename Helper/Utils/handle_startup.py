@@ -38,7 +38,6 @@ class HandleSetup:
 
         discord.fill_headers(token="", user_agent=user_agent, xcontext=xcontext)
 
-        # Log the success
         now = datetime.datetime.now().strftime("%d/%b/%Y %H:%M:%S")
         print(f"127.0.0.1 - - [{now}] \"BUILD /headers HTTP/1.1\" 200 -")
 
@@ -48,8 +47,8 @@ class HandleSetup:
     ) -> Optional[str]:
         """Handle proxy usage based on user input."""
         if utils_instance.load("Input/proxies.txt") != 0:
-            if config["proxy"]["enabled"]:
-                return config["proxy"]["mode"]
+            if config()["proxy"]["enabled"]:
+                return config()["proxy"]["mode"]
 
         return None
 
@@ -116,27 +115,8 @@ class HandleSetup:
 
     @staticmethod
     def get_nickname() -> Optional[str]:
-        """Prompt the user for a nickname."""
-        if config["appearance"]["ask_in_ui"]:
-            if (
-                input(
-                    f"{NexusLogging.LC}{NexusColor.LIGHTBLACK} Change Nick? (y/n):{NexusColor.NEXUS} "
-                )
-                .strip()
-                .lower()
-                == "y"
-            ):
-                nickname = input(
-                    f"{NexusLogging.LC}{NexusColor.LIGHTBLACK} Nickname:{NexusColor.NEXUS} "
-                ).strip()
-                print(
-                    f"{NexusLogging.LC} {NexusColor.LIGHTBLACK}Nickname -> {NexusColor.GREEN}{nickname}{NexusColor.RESET}"
-                )
-                return nickname
-            return None
-        
-        if config["appearance"]["nickname_enabled"]:
-            return config["appearance"]["nickname"]
+        if config()["appearance"]["nickname_enabled"]:
+            return config()["appearance"]["nickname"]
 
     @staticmethod
     def get_delay() -> tuple[int, int] | tuple[None, None]:
@@ -149,32 +129,8 @@ class HandleSetup:
                 except ValueError:
                     print(f"{NexusLogging.LC}{NexusColor.RED} Invalid input. Please enter a valid integer.{NexusColor.RESET}")
 
-        if config["delay"]["ask_in_ui"]:
-            confirm = input(
-                f"{NexusLogging.LC}{NexusColor.LIGHTBLACK} Join Delay? (y/n):{NexusColor.NEXUS} "
-            ).strip().lower()
-
-            if confirm == "y":
-                delay_min = delay_prompt(
-                    f"{NexusLogging.LC}{NexusColor.LIGHTBLACK} Minimum Delay (in seconds):{NexusColor.NEXUS} "
-                )
-                print(
-                    f"{NexusLogging.LC}{NexusColor.LIGHTBLACK} Minimum Delay set to -> {NexusColor.GREEN}{delay_min}{NexusColor.RESET}"
-                )
-
-                delay_max = delay_prompt(
-                    f"{NexusLogging.LC}{NexusColor.LIGHTBLACK} Maximum Delay (in seconds):{NexusColor.NEXUS} "
-                )
-                print(
-                    f"{NexusLogging.LC}{NexusColor.LIGHTBLACK} Maximum Delay set to -> {NexusColor.GREEN}{delay_max}{NexusColor.RESET}"
-                )
-
-                return delay_min, delay_max
-
-            return None, None
-
-        if config["delay"]["enabled"]:
-            return config["delay"]["min"], config["delay"]["max"]
+        if config()["delay"]["enabled"]:
+            return config()["delay"]["min"], config()["delay"]["max"]
 
         return None, None
 

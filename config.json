@@ -1,6 +1,5 @@
 {
   "delay": {
-    "ask_in_ui": false,
     "enabled": false,
     "min": 2,
     "max": 4
@@ -10,8 +9,9 @@
     "mode": "rotating"
   },
   "captcha": {
-    "service": "24captcha",
-    "api_key": "YOUR-24CAP-KEY | 24captcha.online",
+    "service": "anysolver",
+    "subservice": "Capless",
+    "api_key": "",
     "timeout": 60,
     "enabled": true
   },
@@ -20,17 +20,15 @@
     "bypass_rules": true,
     "bypass_onboarding": true,
     "bypass_restorecord": false,
-    "timeout": 20
+    "timeout": 15
   },
   "appearance": {
-    "ask_in_ui": false,
     "nickname_enabled": false,
     "nickname": "Member {random}"
   },
   "vc_joiner": {
     "mute": true,
     "deaf": true,
-    "random": true,
     "randomize_options": true
   }
 }

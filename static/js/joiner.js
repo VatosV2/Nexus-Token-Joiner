@@ -158,15 +158,13 @@ function Joining(tokens, invites, proxies) {
                 settings.join.token_filling
             );
 
-            // Only update stats if token filling is OFF
-            if (!settings.join.token_filling) {
-                if (response.success) joinStats.successful++;
-                else joinStats.failed++;
+            if (response.success) joinStats.successful++;
+            else joinStats.failed++;
 
-                joinStats.current++;
-                joinStats.pending--;
-                updateStatsAndProgress(joinStats);
-            }
+            joinStats.current++;
+            joinStats.pending--;
+            updateStatsAndProgress(joinStats);
+          
 
         } catch (err) {
             if (!settings.join.token_filling) {

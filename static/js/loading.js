@@ -32,7 +32,7 @@ export async function initLoading() {
     let internetOk = false;
     try {
         const response = await fetch("https://www.google.com/", { mode: "no-cors" });
-        internetOk = true; // If fetch doesn't throw, assume OK
+        internetOk = true; 
     } catch {}
     if (!internetOk) {
         updateProgress({ progress: 25, message: "Internet not detected!" });

@@ -39,7 +39,6 @@ export function setupDragAndDrop() {
       reader.onload = e => {
         let lines = e.target.result.split(/\r?\n/).filter(x => x.trim());
 
-        // Extract token if line is email:pass:token or email:token
         const tokens = lines.map(line => {
           const parts = line.split(":");
           return parts.length === 3 ? parts[2] : parts.length === 2 ? parts[1] : parts[0];

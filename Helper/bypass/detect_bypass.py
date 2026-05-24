@@ -147,7 +147,7 @@ class DetectBypass:
                 in response.text
             ):
                 captcha_encounters += 1
-                if config["debug"]:
+                if config()["debug"]:
                     NexusLogging.print_status(
                         token=self.token,
                         message=f"Error encountered while attempting to detect Restorecord: {NexusColor.LIGHTBLACK}Cloudflare",

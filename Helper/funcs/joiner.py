@@ -171,7 +171,7 @@ class NexusTokenJoiner:
                 headers=self.discord.fill_headers(
                     token, self.useragent
                 ),
-                timeout=config["join"]["timeout"]
+                timeout=config()["join"]["timeout"]
             )
 
             if response.status_code == 200:
@@ -268,7 +268,7 @@ class NexusTokenJoiner:
                 "mobile": False,
             }
         )
-        bypasses = config["join"]
+        bypasses = config()["join"]
         detect = DetectBypass(token=token, guildid=self.guild_id, useragent=self.useragent , proxy=proxy, cfsession=cfsess)
             
         self.onboarding = self.onboarding if self.onboarding is not None else detect.check_onboarding()
@@ -361,10 +361,10 @@ class NexusTokenJoiner:
                 color=NexusColor.RED
             )
         if (
-            config["captcha"]["api_key"]
-            != "YOUR-24CAP-KEY | 24captcha.online" 
+            config()["captcha"]["api_key"]
+            != None
             and
-            config["captcha"]["enabled"]
+            config()["captcha"]["enabled"]
             and
             proxy_
         ):
@@ -411,7 +411,7 @@ class NexusTokenJoiner:
                     site_key=site_key,
                     website_url="https://discord.com/channels/@me",
                     proxy=proxy_,
-                    api_key=config["captcha"]["api_key"],
+                    api_key=config()["captcha"]["api_key"],
                 )
                 if status:
                     end_time = time.time()
@@ -436,7 +436,7 @@ class NexusTokenJoiner:
                             "session_id": self.session_id
                         },
                         headers=headers,
-                        timeout=config["join"]["timeout"]
+                        timeout=config()["join"]["timeout"]
                     )
                     
 
@@ -535,7 +535,7 @@ class RunTokenJoiner:
             threads.append(thread)
             thread.start()
 
-            if config["delay"]["enabled"]:
+            if config()["delay"]["enabled"]:
                 time.sleep(random.uniform(delay_min, delay_max))
 
         for thread in threads:
@@ -637,7 +637,7 @@ class RunTokenJoiner:
             )
             nexus.accept_invite(invite, token, proxy, session_id)
 
-            if config["delay"]["enabled"]:
+            if config()["delay"]["enabled"]:
                 time.sleep(random.uniform(delay_min, delay_max))
 
             invite_queue.task_done()
@@ -673,7 +673,7 @@ def main() -> None:
 
     proxy_mode = HandleSetup.handle_proxies(utils)
 
-    if config["join"]["token_filling"]:
+    if config()["join"]["token_filling"]:
         invite_list = HandleSetup.get_invite_links()
 
         HandleSetup.setup_headers(discord=discord, user_agent=useragent)

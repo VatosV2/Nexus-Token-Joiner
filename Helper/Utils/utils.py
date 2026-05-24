@@ -9,6 +9,7 @@ import re
 import time
 import tempfile
 import threading
+from chrome_headers import HeaderSpoofer
 
 from typing import (
     Dict,
@@ -27,8 +28,7 @@ import websocket
 import orjson
 
 
-config = json.load(open("config.json"))
-
+config = lambda: json.load(open("config.json"))
 
 class BuildProperties(TypedDict, total=False):
     os: str
@@ -207,14 +207,13 @@ class Discord:
             "browser_user_agent": user_agent,
             "browser_version": version,
             "os_version": "10",
-            "referrer": "",
-            "referring_domain": "",
-            "referrer_current": "",
-            "referring_domain_current": "",
+            "referrer": "https://discord.com/login",
+            "referring_domain": "discord.com",
+            "referrer_current": "https://discord.com/channels/@me",
+            "referring_domain_current": "discord.com",
             "release_channel": "stable",
             "client_build_number": client,
             "client_event_source": None,
-            "has_client_mods": False,
             "client_launch_id": str(uuid.uuid4()),
             "launch_signature": str(uuid.uuid4()),
             "client_heartbeat_session_id": str(uuid.uuid4()),
@@ -266,6 +265,7 @@ class Discord:
             "authorization": token,
             "content-type": "application/json",
             "origin": "https://discord.com",
+            "priority": "u=1, i",
             "referer": "https://discord.com/channels/@me",
             "sec-ch-ua": f'"Not/A)Brand";v="8", "Chromium";v="{version}", "Google Chrome";v="{version}"',
             "sec-ch-ua-mobile": "?0",
@@ -296,6 +296,7 @@ class Discord:
         headers.update({
             "x-debug-options": "bugReporterEnabled",
             "x-discord-locale": "en-US",
+            "x-discord-timezone": "Europe/Berlin",
             "x-super-properties": Discord.build_properties(user_agent, extra),
         })
 
@@ -345,45 +346,33 @@ class IdentifyPayload(TypedDict):
 
 
 def fetch_session(token: str) -> str:
-    """
-    Connects to the Discord Gateway WebSocket and retrieves the session ID using the provided token.
-
-    Args:
-        token (str): The Discord bot token used for authentication.
-
-    Returns:
-        str: The session ID if the connection is successful and the READY event is received,
-             or an error message if the token is invalid, rate-limited (429), or another error occurs.
-
-    Exceptions:
-        websocket.WebSocketException: Raised if there is an error with the WebSocket connection.
-        json.JSONDecodeError: Raised if there is an error decoding the received JSON data.
-    """
     ws = websocket.WebSocket()
     try:
-        ws.connect(
-            "wss://gateway.discord.gg/?v=9&encoding=json"
-        )
-        recv = json.loads(ws.recv())
+        ws.connect("wss://gateway.discord.gg/?v=9&encoding=json")
+
+        hello = json.loads(ws.recv())
 
         payload = {
             "op": 2,
             "d": {
                 "token": token,
-                "properties": {"$os": "Windows"},
+                "properties": {
+                    "$os": "windows",
+                    "$browser": "my_library",
+                    "$device": "my_library"
+                }
             },
         }
-
         ws.send(json.dumps(payload))
-        result = json.loads(ws.recv())
 
-        if result.get("t") == "READY":
-            return result["d"]["session_id"]
-        if result.get("op") == 9:
-            return "Invalid token"
-        if result.get("op") == 429:
-            return "429"
-        return "An unknown error occurred"
+        while True:
+            msg = json.loads(ws.recv())
+
+            if msg.get("t") == "READY":
+                return msg["d"]["session_id"]
+
+            if msg.get("op") == 9:
+                return "Invalid token"
 
     except websocket.WebSocketException as e:
         return f"WebSocket error: {e}"
@@ -437,6 +426,8 @@ def keep_session_alive(ws, heartbeat_interval):
 
     thread = threading.Thread(target=heartbeat, daemon=True)
     thread.start()
+        
+
 
 class Hsolver:
     """
@@ -452,89 +443,39 @@ class Hsolver:
         proxy: str,
         api_key: str,
     ) -> Dict[bool, str]:
-        """
-        Solves an hCaptcha using an external solver service.
-
-        This method communicates with the captcha solving service, using the provided
-        data (such as the `site_key`, `website_url`, `proxy`, and `rqdata`) along
-        with an `api_key` for authentication to solve the captcha.
-
-        The process continues to retry until the captcha is successfully solved.
-
-        Args:
-            rqdata (str): The required data for the captcha request (often specific to the captcha instance).
-            site_key (str): The site key for the hCaptcha challenge (provided by the website hosting the captcha).
-            website_url (str): The URL of the website where the captcha is located.
-            proxy (str): The proxy to use for making the request (if any).
-            api_key (str): The API key for the captcha solving service to authenticate the request.
-
-        Returns:
-            str: The solution for the captcha if successfully solved.
-
-        Raises:
-            Exception: If the captcha cannot be solved after repeated attempts (not handled here, but can be customized).
-        """
         
-        
-        if config["captcha"]["service"] == "24captcha":
             json = {
-                "key": api_key,
-                "sitekey": site_key,
-                "pageurl": website_url,
-                "json": 1,
-                "proxy": proxy,
-                "rqdata": rqdata,
-                "enterprise": True
-            }
-            
-            r = requests.post("https://24captcha.online/in.php", json=json)
-            task_id = r.json()["request"]
-            json = {
-                "key": api_key,
-                "action": "get",
-                "id": task_id,
-                "json": 1
-            }
-            
-            for _ in range(config["captcha"]["timeout"]):
-                r = requests.get(f"https://24captcha.online/res.php", json=json)
-                if r.json()["status"] == 1:
-                    return True, r.json()["request"]
-                
-                if r.json()["request"] == "ERROR_CAPTCHA_UNSOLVABLE":
-                    return False, r.json()["request"]
-                
-                time.sleep(1)
-            
-            return False, "Captcha Timeout"
-
-        if config["captcha"]["service"] == "razorcap":
-            json = {
-                'key': api_key, 
-                'type': "hcaptcha_enterprise",
-                'data': {
-                    'sitekey': site_key,
-                    'siteurl': "discord.com",
-                    'proxy': f"http://{proxy}",
-                    'rqdata': rqdata
+                "clientKey": api_key,
+                "provider": config()["captcha"]["subservice"],
+                "task": {
+                    "websiteURL": website_url,
+                    "websiteKey": site_key,
+                    "rqdata": rqdata,
+                    "type": "PopularCaptchaEnterpriseToken",
+                    "proxy": proxy
                 }
             }
-            r = requests.post("https://api.razorcap.me/create_task", json=json)
+            r = requests.post("https://api.anysolver.com/createTask", json=json)
+            print(r.json())
             if r.ok:
-                task_id = r.json()["task_id"]
-
-            for _ in range(45):
-                r = requests.get(f"https://api.razorcap.me/get_result/{task_id}")
-                if r.json()["status"] == "solved":
-                    return True, r.json()["response_key"]
+                task_id = r.json()["taskId"]
                 
-                if r.json()["status"] == "error":
-                    return False, r.json()["message"]
+            json = {
+                "clientKey": api_key,
+                "taskId": task_id
+            }
+            for _ in range(120):
+                r = requests.post("https://api.anysolver.com/getTaskResult", json=json)
+                if r.json()["status"] == "ready":
+                    return True, r.json()["solution"]["token"]
+                
+                if r.json()["status"] == "failed":
+                    return False,  r.json()["errorCode"]
                 
                 time.sleep(1)
-            
+                
             return False, "Captcha Timeout"
-        
+
 
 
 class Utils:
