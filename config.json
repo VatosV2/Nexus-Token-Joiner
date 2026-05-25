@@ -10,7 +10,7 @@
   },
   "captcha": {
     "service": "anysolver",
-    "subservice": "Capless",
+    "subservice": "VoidSolver",
     "api_key": "",
     "timeout": 60,
     "enabled": true
