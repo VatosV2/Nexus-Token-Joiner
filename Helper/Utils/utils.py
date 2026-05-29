@@ -9,7 +9,6 @@ import re
 import time
 import tempfile
 import threading
-from chrome_headers import HeaderSpoofer
 
 from typing import (
     Dict,
