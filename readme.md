@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <a href="https://t.me/cfvatos">Telegram Channel</a> • <a href="https://github.com/cf-vatos/token-gen">Repository</a>
+  <a href="https://t.me/cfvatos">Telegram Update Channel</a> • <a href="https://t.me/cfdevlopment">Telegram Community Channel</a>
 </p>
 
 ---
