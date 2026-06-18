@@ -10,9 +10,8 @@
 
 <p align="center">
   <a href="https://github.com/cf-vatos/token-gen/stargazers">
-    <img src="https://img.shields.io/github/stars/vatosv2/token-gen?style=for-the-badge&logo=github&color=darkgreen" alt="GitHub Stars">
+    <img src="https://img.shields.io/github/stars/vatosv2/Nexus-Token-Joiner?style=for-the-badge&logo=github&color=darkgreen" alt="GitHub Stars">
   </a>
-  <img src="https://img.shields.io/badge/License-Unlicense-blue?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/Maintained%3F-yes-green?style=for-the-badge" alt="Maintained">
 </p>
 
