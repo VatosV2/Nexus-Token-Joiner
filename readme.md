@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <a href="https://t.me/cfvatos">Telegram Update Channel</a> • <a href="https://t.me/cfdevlopment">Telegram Community Channel</a>
+  <a href="https://t.me/cfvatos">Telegram Update Channel</a> • <a href="https://t.me/cfdevelopment">Telegram Community Channel</a>
 </p>
 
 ---
