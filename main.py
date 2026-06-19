@@ -326,4 +326,4 @@ if __name__ == '__main__':
         frameless=True
         )
 
-    webview.start(debug=False, icon="./static/logo.png")
+    webview.start(debug=False)
